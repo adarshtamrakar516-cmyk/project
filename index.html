@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SecureRegister — Create Account</title>
 
-  <!-- Google reCAPTCHA -->
+  <!-- ✅ Google reCAPTCHA -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
   <div class="grid-overlay"></div>
 
   <main class="container">
-    
+
     <!-- LEFT PANEL -->
     <aside class="brand-panel">
       <div class="brand-top">
@@ -30,7 +30,7 @@
       </div>
 
       <div class="security-badges">
-        <div class="badge">
+        <div class="badge" id="badge-captcha">
           <span class="badge-icon">🤖</span>
           <div>
             <div class="badge-label">Human Verify</div>
@@ -38,34 +38,44 @@
           </div>
         </div>
       </div>
+
+      <div class="policy-note">
+        <p>Passwords are hashed with <strong>bcrypt</strong> (cost=12) before storage.</p>
+      </div>
     </aside>
 
     <!-- FORM -->
     <section class="form-panel">
-      <h1>Create Account</h1>
+      <h1 class="form-title">Create Account</h1>
 
-      <form id="register-form">
+      <form id="register-form" novalidate autocomplete="off">
 
+        <!-- Username -->
         <input type="text" id="username" placeholder="Username" required>
+
+        <!-- Email -->
         <input type="email" id="email" placeholder="Email" required>
 
+        <!-- Password -->
         <input type="password" id="password" placeholder="Password" required>
+
+        <!-- Confirm Password -->
         <input type="password" id="confirm-password" placeholder="Confirm Password" required>
 
         <!-- ✅ CAPTCHA -->
-        <div style="margin: 15px 0;">
+        <div style="margin: 20px 0;">
           <div class="g-recaptcha"
-               data-sitekey="6LdZQLAsAAAAADP6c3ZXerC3kV2etjbyl6ZiAFyc">
+               data-sitekey="6Lf5RbAsAAAAAJFyfptQEe0W2c1t9tNc-6fuq2d-">
           </div>
         </div>
 
-        <button type="submit">Create Account</button>
+        <button type="submit" class="btn-submit">Create Secure Account</button>
       </form>
-
     </section>
+
   </main>
 
-  <!-- ✅ SCRIPT AT BOTTOM -->
+  <!-- ✅ SCRIPT -->
   <script>
     document.getElementById("register-form").addEventListener("submit", function(e) {
 
