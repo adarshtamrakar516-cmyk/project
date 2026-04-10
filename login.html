@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureReg — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="grid-overlay"></div>
+
+  <main class="container">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">SecureReg</span>
+        </div>
+        <p class="brand-tagline">Welcome back!<br/>Secure access awaits.</p>
+      </div>
+
+      <div class="security-badges">
+        <div class="badge" id="badge-captcha">
+          <span class="badge-icon">🤖</span>
+          <div>
+            <div class="badge-label">Human Verify</div>
+            <div class="badge-status" id="status-captcha">Waiting...</div>
+          </div>
+        </div>
+        <div class="badge" id="badge-auth">
+          <span class="badge-icon">🔐</span>
+          <div>
+            <div class="badge-label">Authentication</div>
+            <div class="badge-status" id="status-auth">Waiting...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="policy-note">
+        <p>Your credentials are encrypted in transit and verified securely.</p>
+      </div>
+    </aside>
+
+    <section class="form-panel">
+      <h1 class="form-title">Sign In</h1>
+      <p class="form-subtitle">Enter your credentials to access your account.</p>
+
+      <div id="alert-box" class="alert hidden"></div>
+
+      <form id="login-form" novalidate autocomplete="off">
+
+        <!-- Username/Email -->
+        <div class="field-group">
+          <label for="username">Username or Email</label>
+          <div class="input-wrap">
+            <input type="text" id="username" name="username"
+              placeholder="Enter your username or email"
+              autocomplete="username" required/>
+            <span class="input-icon">👤</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password" required/>
+            <button type="button" class="toggle-pw" id="toggle-pw" aria-label="Toggle password visibility">👁</button>
+          </div>
+        </div>
+
+        <!-- Google reCAPTCHA -->
+        <div class="field-group captcha-group">
+          <label>Human Verification</label>
+          <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6Ld_6K4sAAAAAB4Xj642z4SGVe_IzBL1wYLadUHF"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-submit">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-loader hidden" id="btn-loader">Authenticating…</span>
+        </button>
+      </form>
+
+      <p class="login-link">Don't have an account? <a href="index.html" class="link">Create Account</a></p>
+    </section>
+  </main>
+
+  <script src="login.js"></script>
+</body>
+</html>

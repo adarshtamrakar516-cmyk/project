@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureReg — Login Successful</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="grid-overlay"></div>
+
+  <main class="container">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">SecureReg</span>
+        </div>
+        <p class="brand-tagline">Successfully<br/>authenticated!</p>
+      </div>
+
+      <div class="security-badges">
+        <div class="badge active" id="badge-success">
+          <span class="badge-icon">✅</span>
+          <div>
+            <div class="badge-label">Login Status</div>
+            <div class="badge-status" id="status-success">Success ✓</div>
+          </div>
+        </div>
+        <div class="badge active" id="badge-session">
+          <span class="badge-icon">🔑</span>
+          <div>
+            <div class="badge-label">Session</div>
+            <div class="badge-status" id="status-session">Active</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="policy-note">
+        <p>You are now securely logged in. Your session is protected.</p>
+      </div>
+    </aside>
+
+    <section class="form-panel">
+      <div class="success-content">
+        <div class="success-icon">🎉</div>
+        <h1 class="form-title">Login Successful!</h1>
+        <p class="form-subtitle">Welcome back. You have successfully authenticated to your account.</p>
+        
+        <div class="success-details">
+          <div class="detail-item">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value success">Authenticated</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Session:</span>
+            <span class="detail-value">Active</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Security:</span>
+            <span class="detail-value">Verified</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button type="button" class="btn-submit" onclick="goBack()">
+            <span class="btn-text">Go Back</span>
+          </button>
+        </div>
+
+        <p class="login-link">Need to login again? <a href="login.html" class="link">Sign In</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function goBack() {
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>
