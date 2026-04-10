@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SecureRegister — Create Account</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
@@ -130,18 +131,35 @@
 
         <!-- CAPTCHA -->
         <div class="field-group captcha-group">
-          <label>Human Verification — Solve the puzzle</label>
-          <div class="captcha-box" id="captcha-box">
-            <div class="captcha-question" id="captcha-question">Loading…</div>
-            <div class="captcha-input-row">
-              <input type="text" id="captcha-answer" placeholder="Your answer"
-                autocomplete="off" maxlength="20"/>
-              <button type="button" id="captcha-refresh" title="New puzzle">↻</button>
-            </div>
-            <div class="captcha-hint" id="captcha-hint"></div>
-          </div>
-        </div>
+  <label>Human Verification</label>
+  <div class="g-recaptcha" data-sitekey="6LdZQLAsAAAAADP6c3ZXerC3kV2etjbyl6ZiAFyc"></div>
+</div>
+<script>
+document.getElementById("register-form").addEventListener("submit", function(e) {
 
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+  const captchaResponse = grecaptcha.getResponse();
+
+  // Password check
+  if (password !== confirmPassword) {
+    e.preventDefault();
+    alert("Passwords do not match!");
+    return;
+  }
+
+  // CAPTCHA check
+  if (captchaResponse.length === 0) {
+    e.preventDefault();
+    alert("Please verify that you are not a robot.");
+    document.getElementById("status").textContent = "Captcha Failed ❌";
+    return;
+  }
+
+  // Success
+  document.getElementById("status").textContent = "Captcha Verified ✅";
+});
+</script>
         <!-- Terms -->
         <div class="field-group checkbox-group">
           <label class="checkbox-label">
