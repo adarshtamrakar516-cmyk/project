@@ -4,16 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SecureRegister — Create Account</title>
+
+  <!-- Google reCAPTCHA -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="noise"></div>
   <div class="grid-overlay"></div>
 
   <main class="container">
+    
+    <!-- LEFT PANEL -->
     <aside class="brand-panel">
       <div class="brand-top">
         <div class="logo">
@@ -24,171 +30,68 @@
       </div>
 
       <div class="security-badges">
-        <div class="badge" id="badge-entropy">
-          <span class="badge-icon">🔐</span>
-          <div>
-            <div class="badge-label">Entropy Check</div>
-            <div class="badge-status" id="status-entropy">Waiting...</div>
-          </div>
-        </div>
-        <div class="badge" id="badge-breach">
-          <span class="badge-icon">🛡️</span>
-          <div>
-            <div class="badge-label">Breach Guard</div>
-            <div class="badge-status" id="status-breach">Waiting...</div>
-          </div>
-        </div>
-        <div class="badge" id="badge-captcha">
+        <div class="badge">
           <span class="badge-icon">🤖</span>
           <div>
             <div class="badge-label">Human Verify</div>
             <div class="badge-status" id="status-captcha">Waiting...</div>
           </div>
         </div>
-        <div class="badge" id="badge-encrypt">
-          <span class="badge-icon">🔒</span>
-          <div>
-            <div class="badge-label">bcrypt Hash</div>
-            <div class="badge-status" id="status-encrypt">Waiting...</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="policy-note">
-        <p>Passwords are hashed with <strong>bcrypt</strong> (cost=12) before storage. Plain-text passwords are never saved.</p>
       </div>
     </aside>
 
+    <!-- FORM -->
     <section class="form-panel">
-      <h1 class="form-title">Create Account</h1>
-      <p class="form-subtitle">All fields are required. Your data is encrypted in transit.</p>
+      <h1>Create Account</h1>
 
-      <div id="alert-box" class="alert hidden"></div>
+      <form id="register-form">
 
-      <form id="register-form" novalidate autocomplete="off">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="email" id="email" placeholder="Email" required>
 
-        <!-- Username -->
-        <div class="field-group">
-          <label for="username">Username</label>
-          <div class="input-wrap">
-            <input type="text" id="username" name="username"
-              placeholder="e.g. john_doe42"
-              minlength="3" maxlength="30"
-              autocomplete="off" spellcheck="false" required/>
-            <span class="input-icon">👤</span>
-          </div>
-          <div class="field-hint" id="username-hint"></div>
-        </div>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
 
-        <!-- Email -->
-        <div class="field-group">
-          <label for="email">Email Address</label>
-          <div class="input-wrap">
-            <input type="email" id="email" name="email"
-              placeholder="you@example.com"
-              autocomplete="off" required/>
-            <span class="input-icon">✉️</span>
+        <!-- ✅ CAPTCHA -->
+        <div style="margin: 15px 0;">
+          <div class="g-recaptcha"
+               data-sitekey="6LdZQLAsAAAAADP6c3ZXerC3kV2etjbyl6ZiAFyc">
           </div>
         </div>
 
-        <!-- Password -->
-        <div class="field-group">
-          <label for="password">Password</label>
-          <div class="input-wrap">
-            <input type="password" id="password" name="password"
-              placeholder="Min 12 characters"
-              minlength="12" autocomplete="new-password" required/>
-            <button type="button" class="toggle-pw" id="toggle-pw" aria-label="Toggle password visibility">👁</button>
-          </div>
-          <!-- Strength meter -->
-          <div class="strength-bar-wrap">
-            <div class="strength-bar" id="strength-bar">
-              <div class="strength-fill" id="strength-fill"></div>
-            </div>
-            <span class="strength-label" id="strength-label">—</span>
-          </div>
-          <ul class="pw-criteria" id="pw-criteria">
-            <li id="cr-length"   class="cr">12+ characters</li>
-            <li id="cr-upper"    class="cr">Uppercase letter</li>
-            <li id="cr-lower"    class="cr">Lowercase letter</li>
-            <li id="cr-digit"    class="cr">Number</li>
-            <li id="cr-special"  class="cr">Special character (!@#…)</li>
-            <li id="cr-nocommon" class="cr">Not a common password</li>
-          </ul>
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="field-group">
-          <label for="confirm-password">Confirm Password</label>
-          <div class="input-wrap">
-            <input type="password" id="confirm-password" name="confirm-password"
-              placeholder="Repeat your password"
-              autocomplete="new-password" required/>
-            <span class="input-icon" id="confirm-icon">↩️</span>
-          </div>
-          <div class="field-hint" id="confirm-hint"></div>
-        </div>
-
-        <!-- CAPTCHA -->
-        <div class="field-group captcha-group">
-  <label>Human Verification</label>
-  <div class="g-recaptcha" data-sitekey="6LdZQLAsAAAAADP6c3ZXerC3kV2etjbyl6ZiAFyc"></div>
-</div>
-<script>
-document.getElementById("register-form").addEventListener("submit", function(e) {
-
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirm-password").value;
-  const captchaResponse = grecaptcha.getResponse();
-
-  // Password check
-  if (password !== confirmPassword) {
-    e.preventDefault();
-    alert("Passwords do not match!");
-    return;
-  }
-
-  // CAPTCHA check
-  if (captchaResponse.length === 0) {
-    e.preventDefault();
-    alert("Please verify that you are not a robot.");
-    document.getElementById("status").textContent = "Captcha Failed ❌";
-    return;
-  }
-
-  // Success
-  document.getElementById("status").textContent = "Captcha Verified ✅";
-});
-</script>
-        <!-- Terms -->
-        <div class="field-group checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" id="terms" required/>
-            <span>I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a></span>
-          </label>
-        </div>
-
-        <button type="submit" class="btn-submit" id="btn-submit">
-          <span class="btn-text">Create Secure Account</span>
-          <span class="btn-loader hidden" id="btn-loader">Creating…</span>
-        </button>
+        <button type="submit">Create Account</button>
       </form>
 
-      <p class="login-link">Already have an account? <a href="login.html" class="link">Sign in</a></p>
     </section>
   </main>
 
-  <!-- Success Modal -->
-  <div class="modal-overlay hidden" id="success-modal">
-    <div class="modal">
-      <div class="modal-icon">✅</div>
-      <h2>Account Created!</h2>
-      <p id="modal-msg">Your account has been securely registered.</p>
-      <div class="modal-detail" id="modal-detail"></div>
-      <button class="btn-submit" onclick="goToLogin()">Continue</button>
-    </div>
-  </div>
+  <!-- ✅ SCRIPT AT BOTTOM -->
+  <script>
+    document.getElementById("register-form").addEventListener("submit", function(e) {
 
-  <script src="app.js"></script>
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const captchaResponse = grecaptcha.getResponse();
+
+      // Password check
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // CAPTCHA check
+      if (captchaResponse.length === 0) {
+        e.preventDefault();
+        alert("Please verify that you are not a robot.");
+        document.getElementById("status-captcha").textContent = "Failed ❌";
+        return;
+      }
+
+      // Success
+      document.getElementById("status-captcha").textContent = "Verified ✅";
+    });
+  </script>
+
 </body>
 </html>
